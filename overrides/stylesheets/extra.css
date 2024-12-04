@@ -8,6 +8,9 @@
   --md-default-fg-color: #1d1d20;
   --md-default-bg-color: #ffffff;
 
+  --md-body-bg-color: #22272e;
+  --md-header-bg-color: rgba(255, 255, 255, 0.6);
+
   --md-code-fg-color: #1d1d20;
   --md-code-bg-color: #f5f5f5;
 
@@ -32,6 +35,9 @@
   --md-default-fg-color: #adbac7;
   --md-default-bg-color: #22272e;
 
+  --md-body-bg-color: #22272e;
+  --md-header-bg-color: rgba(34, 39, 46, 0.8);
+
   --md-code-fg-color: #adbac7;
   --md-code-bg-color: #1d2126;
 
@@ -42,12 +48,29 @@
   --md-footer-fg-color: #adbac7;
 
   --md-typeset-color: #adbac7;
-  --md-typeset-a-color: #52bbb1 !important;
+  --md-typeset-a-color: #52bbb1;
 
   --md-typeset-btn-color: #52bbb1;
   --md-typeset-btn-hover-color: #55aea6;
 
   --md-admonition-pythontutor-color: #30363f;
+}
+
+[data-md-color-scheme="slate"][data-md-color-primary="black"],
+[data-md-color-scheme="slate"][data-md-color-primary="white"] {
+  --md-typeset-a-color: #52bbb1;
+}
+
+[data-md-color-primary="black"] .md-header {
+  background-color: var(--md-header-bg-color);
+}
+
+.md-header {
+  box-shadow: none;
+  transition: none;
+  backdrop-filter: saturate(180%) blur(20px); /* Gaussian blur */
+  -webkit-backdrop-filter: saturate(180%) blur(20px); /* Safari */
+  background-color: var(--md-header-bg-color);
 }
 
 /* https://github.com/squidfunk/mkdocs-material/issues/4832#issuecomment-1374891676 */
@@ -184,6 +207,28 @@ body {
   width: 1.25em;
 }
 
+/* code block tabs */
+.md-typeset .tabbed-labels>label {
+  font-size: 0.61rem;
+}
+
+.md-typeset .tabbed-labels--linked>label>a {
+  padding: .78125em 1.0em .625em;
+}
+
+/* header banner */
+.md-banner {
+  background-color: var(--md-code-bg-color);
+  color: var(--md-default-fg-color);
+  font-size: 0.75rem;
+}
+
+.md-banner .banner-svg svg {
+  margin-right: 0.3rem;
+  height: 0.63rem;
+  fill: var(--md-default-fg-color);
+}
+
 .pythontutor-iframe {
   width: 125%;
   height: 125%;
@@ -298,7 +343,7 @@ a:hover .text-button span {
 }
 
 /* hero image */
-.hero-image-div {
+.hero-div {
   height: min(84vh, 75vw);
   width: min(112vh, 100vw);
   margin: 0 auto;
@@ -317,13 +362,13 @@ a:hover .text-button span {
 }
 
 /* hover on the planets */
-.hero-on-hover {
+.hero-div > a > img {
   width: auto;
   position: absolute;
   transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
 }
 
-.hero-caption {
+.hero-div > a > span {
   margin: 0;
   position: absolute;
   transform: translateX(-50%) translateY(-50%);
@@ -331,15 +376,25 @@ a:hover .text-button span {
   color: white;
 }
 
-a:hover .hero-on-hover {
+.hero-div > a:hover > img {
   filter: brightness(1.15) saturate(1.1)
     drop-shadow(0 0 0.5rem rgba(255, 255, 255, 0.2));
   transform: scale(1.03);
 }
 
-a:hover .hero-caption {
+.hero-div > a:hover > span {
   text-decoration: underline;
   color: var(--md-typeset-btn-color);
+}
+
+.heading-div {
+  width: 100%;
+  position: absolute;
+  transform: translateX(-50%);
+  left: 50%;
+  bottom: min(2vh, 3vw);
+  pointer-events: none;
+  color: #fff;
 }
 
 /* code badge */
@@ -400,13 +455,13 @@ a:hover .hero-caption {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  max-width: 720px;
+  max-width: 40em;
   margin: 1em auto;
 }
 
 .profile-cell {
   flex: 1; /* even distribution */
-  flex-basis: 15%;
+  flex-basis: 20%;
   margin: 1em 0.5em;
   text-align: center;
 }
@@ -433,6 +488,17 @@ a:hover .hero-caption {
     height: 33vw;
   }
 
+  .contrib-image {
+    width: 100%;
+  }
+}
+
+/* Hide table of contents */
+@media screen and (max-width: 60em) {
+  .home-div {
+    font-size: 0.75rem;
+  }
+
   .intro-container {
     flex-direction: column;
   }
@@ -454,25 +520,21 @@ a:hover .hero-caption {
     margin-bottom: 1em;
   }
 
-  .contrib-image {
-    width: 100%;
-  }
-
-  .profile-div {
-    max-width: 500px;
-  }
-  .profile-cell {
-    flex-basis: 25%;
-  }
-}
-
-/* Hide table of contents */
-@media screen and (max-width: 60em) {
-  .home-div {
-    font-size: 0.75rem;
-  }
-
   .text-button {
     margin: 0.7em auto;
   }
+}
+
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  height: 0;
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
